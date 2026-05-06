@@ -1,12 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Use service role key so server-side inserts bypass RLS anon restrictions
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+}
 
 export async function POST(request) {
+  const supabase = getSupabase();
   let body;
   try {
     body = await request.json();
@@ -58,7 +60,7 @@ export async function POST(request) {
 
   // 3. Push receipt to Loyverse (fire-and-forget — order is already saved)
   if (process.env.LOYVERSE_API_TOKEN && process.env.LOYVERSE_STORE_ID) {
-    pushToLoyverse(order, items).catch((err) =>
+    pushToLoyverse(order, items, supabase).catch((err) =>
       console.error('Loyverse receipt push failed:', err.message)
     );
   }
@@ -66,7 +68,7 @@ export async function POST(request) {
   return Response.json(order);
 }
 
-async function pushToLoyverse(order, items) {
+async function pushToLoyverse(order, items, supabase) {
   // Only send items that have a real Loyverse item ID (skip mock data)
   const lineItems = items
     .filter((i) => i.loyverseItemId && !String(i.loyverseItemId).startsWith('mock-'))
