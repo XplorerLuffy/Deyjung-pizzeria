@@ -4,24 +4,147 @@ import { useState, useEffect } from 'react';
 import { fetchMenu, submitOrder } from '../lib/supabase';
 
 const CATEGORY_ICONS = {
-  Pizza: '🍕', Mains: '🍛', Snacks: '🍟',
-  Drinks: '🥤', Desserts: '🍨', Default: '🍽️',
+  'Veg Pizza': '🍕', 'Non-Veg Pizza': '🍕', 'Pizza Rolls': '🌯',
+  'Bhutanese': '🍲', 'Fried Rice': '🍚', 'Chowmein': '🍜',
+  'Thukpa': '🍜', 'Fried Chicken': '🍗', 'Momos': '🥟',
+  'Milkshakes': '🥤', 'Boba Tea': '🧋', 'Mocktails': '🍹',
+  'Drinks': '🥤', Default: '🍽️',
 };
 
 const MOCK_MENU = [
-  { id: '1', loyverse_item_id: 'mock-1', name: 'Margherita Pizza', description: 'Fresh tomato, mozzarella, basil', category: 'Pizza', price: 280, image_url: null, is_available: true },
-  { id: '2', loyverse_item_id: 'mock-2', name: 'BBQ Chicken Pizza', description: 'Smoky BBQ sauce, grilled chicken, red onion', category: 'Pizza', price: 320, image_url: null, is_available: true },
-  { id: '3', loyverse_item_id: 'mock-3', name: 'Pepperoni Pizza', description: 'Classic pepperoni with mozzarella', category: 'Pizza', price: 310, image_url: null, is_available: true },
-  { id: '4', loyverse_item_id: 'mock-4', name: 'Veggie Supreme', description: 'Bell peppers, mushroom, olives, corn', category: 'Pizza', price: 290, image_url: null, is_available: true },
-  { id: '5', loyverse_item_id: 'mock-5', name: 'Ema Datshi', description: "Bhutan's national dish — chillies & cheese", category: 'Mains', price: 150, image_url: null, is_available: true },
-  { id: '6', loyverse_item_id: 'mock-6', name: 'Phaksha Paa', description: 'Pork with red chillies & spinach', category: 'Mains', price: 180, image_url: null, is_available: true },
-  { id: '7', loyverse_item_id: 'mock-7', name: 'Butter Chicken', description: 'Creamy tomato curry with naan', category: 'Mains', price: 200, image_url: null, is_available: true },
-  { id: '8', loyverse_item_id: 'mock-8', name: 'Chicken Burger', description: 'Crispy chicken, lettuce, house sauce', category: 'Snacks', price: 160, image_url: null, is_available: true },
-  { id: '9', loyverse_item_id: 'mock-9', name: 'Loaded Fries', description: 'Cheese sauce, jalapeños, sour cream', category: 'Snacks', price: 120, image_url: null, is_available: true },
-  { id: '10', loyverse_item_id: 'mock-10', name: 'Garlic Bread', description: 'Toasted with herb butter', category: 'Snacks', price: 80, image_url: null, is_available: true },
-  { id: '11', loyverse_item_id: 'mock-11', name: 'Coca-Cola', description: '330ml chilled', category: 'Drinks', price: 40, image_url: null, is_available: true },
-  { id: '12', loyverse_item_id: 'mock-12', name: 'Fresh Lime Soda', description: 'Homemade, sweet or salted', category: 'Drinks', price: 60, image_url: null, is_available: true },
-  { id: '13', loyverse_item_id: 'mock-13', name: 'Mango Lassi', description: 'Thick yogurt mango shake', category: 'Drinks', price: 80, image_url: null, is_available: true },
+  // ── Veg Pizza ─────────────────────────────────────────────
+  { id: 'margarita-pizza-s', loyverse_item_id: 'margarita-pizza(s)', name: 'Margarita Pizza (S)', description: 'Classic tomato base with mozzarella', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'margarita-pizza-m', loyverse_item_id: 'margarita-pizza(m)', name: 'Margarita Pizza (M)', description: 'Classic tomato base with mozzarella', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'margarita-pizza-l', loyverse_item_id: 'margarita-pizza(l)', name: 'Margarita Pizza (L)', description: 'Classic tomato base with mozzarella', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'garden-fresh-s', loyverse_item_id: 'farmhouse-pizza(s)', name: 'Garden Fresh Pizza (S)', description: 'Fresh garden vegetables on tomato base', category: 'Veg Pizza', price: 230, image_url: null, is_available: true },
+  { id: 'garden-fresh-m', loyverse_item_id: 'farmhouse-pizza(m)', name: 'Garden Fresh Pizza (M)', description: 'Fresh garden vegetables on tomato base', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'garden-fresh-l', loyverse_item_id: 'farmhouse-pizza(l)', name: 'Garden Fresh Pizza (L)', description: 'Fresh garden vegetables on tomato base', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'fireball-s', loyverse_item_id: 'fireball-pizza(s)', name: 'Fireball Pizza (S)', description: 'Spicy tomato base with chilli kick', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'fireball-m', loyverse_item_id: 'fireball-pizza(m)', name: 'Fireball Pizza (M)', description: 'Spicy tomato base with chilli kick', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'fireball-l', loyverse_item_id: 'fireball-pizza-(l)', name: 'Fireball Pizza (L)', description: 'Spicy tomato base with chilli kick', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'garlic-pizza-s', loyverse_item_id: 'garlic-pizza(s)', name: 'Garlic Pizza (S)', description: 'Roasted garlic and herbs', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'garlic-pizza-m', loyverse_item_id: 'garlic-pizza', name: 'Garlic Pizza (M)', description: 'Roasted garlic and herbs', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'garlic-pizza-l', loyverse_item_id: 'garlic-pizza(l)', name: 'Garlic Pizza (L)', description: 'Roasted garlic and herbs', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'mushroom-s', loyverse_item_id: 'mushroom-pizza(s)', name: 'Mushroom Pizza (S)', description: 'Loaded with fresh mushrooms', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'mushroom-m', loyverse_item_id: 'mushroom(m)', name: 'Mushroom Pizza (M)', description: 'Loaded with fresh mushrooms', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'mushroom-l', loyverse_item_id: 'mushroom-pizza(l)', name: 'Mushroom Pizza (L)', description: 'Loaded with fresh mushrooms', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'paneer-s', loyverse_item_id: 'paneer-pizza(s)', name: 'Paneer Pizza (S)', description: 'Cottage cheese with peppers', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'paneer-m', loyverse_item_id: 'paneer-pizza(m)', name: 'Paneer Pizza (M)', description: 'Cottage cheese with peppers', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'paneer-l', loyverse_item_id: 'paneer-pizza(l)', name: 'Paneer Pizza (L)', description: 'Cottage cheese with peppers', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'plain-cheese-s', loyverse_item_id: 'plain-cheese-pizza(s)', name: 'Plain Cheese Pizza (S)', description: 'Simple and cheesy', category: 'Veg Pizza', price: 240, image_url: null, is_available: true },
+  { id: 'plain-cheese-m', loyverse_item_id: 'plain-cheese-pizza', name: 'Plain Cheese Pizza (M)', description: 'Simple and cheesy', category: 'Veg Pizza', price: 290, image_url: null, is_available: true },
+  { id: 'plain-cheese-l', loyverse_item_id: 'plain-cheese-pizza(l)', name: 'Plain Cheese Pizza (L)', description: 'Simple and cheesy', category: 'Veg Pizza', price: 380, image_url: null, is_available: true },
+  { id: 'double-cheese-s', loyverse_item_id: 'double-cheese-pizza-(s)', name: 'Double Cheese Pizza (S)', description: 'Extra cheese for extra love', category: 'Veg Pizza', price: 270, image_url: null, is_available: true },
+  { id: 'double-cheese-m', loyverse_item_id: 'double-cheese-pizza(m)', name: 'Double Cheese Pizza (M)', description: 'Extra cheese for extra love', category: 'Veg Pizza', price: 340, image_url: null, is_available: true },
+  { id: 'double-cheese-l', loyverse_item_id: 'double-cheese-pizza(l)', name: 'Double Cheese Pizza (L)', description: 'Extra cheese for extra love', category: 'Veg Pizza', price: 430, image_url: null, is_available: true },
+
+  // ── Non-Veg Pizza ─────────────────────────────────────────
+  { id: 'beef-pizza-s', loyverse_item_id: 'shakam-pizza(s)', name: 'Beef Pizza (S)', description: 'Tender beef with mozzarella', category: 'Non-Veg Pizza', price: 250, image_url: null, is_available: true },
+  { id: 'beef-pizza-m', loyverse_item_id: 'shakam-pizza(m)', name: 'Beef Pizza (M)', description: 'Tender beef with mozzarella', category: 'Non-Veg Pizza', price: 320, image_url: null, is_available: true },
+  { id: 'beef-pizza-l', loyverse_item_id: 'shakam-pizza(l)', name: 'Beef Pizza (L)', description: 'Tender beef with mozzarella', category: 'Non-Veg Pizza', price: 400, image_url: null, is_available: true },
+  { id: 'pork-pizza-s', loyverse_item_id: 'pork-pizza(s)', name: 'Pork Pizza (S)', description: 'Juicy pork with mozzarella', category: 'Non-Veg Pizza', price: 250, image_url: null, is_available: true },
+  { id: 'pork-pizza-m', loyverse_item_id: 'pork-pizza(m)', name: 'Pork Pizza (M)', description: 'Juicy pork with mozzarella', category: 'Non-Veg Pizza', price: 320, image_url: null, is_available: true },
+  { id: 'pork-pizza-l', loyverse_item_id: 'pork-pizza(l)', name: 'Pork Pizza (L)', description: 'Juicy pork with mozzarella', category: 'Non-Veg Pizza', price: 400, image_url: null, is_available: true },
+  { id: 'chicken-pizza-s', loyverse_item_id: 'chicken-pizza-(s)', name: 'Chicken Pizza (S)', description: 'Grilled chicken with mozzarella', category: 'Non-Veg Pizza', price: 250, image_url: null, is_available: true },
+  { id: 'chicken-pizza-m', loyverse_item_id: 'chicken-pizza-(m)', name: 'Chicken Pizza (M)', description: 'Grilled chicken with mozzarella', category: 'Non-Veg Pizza', price: 320, image_url: null, is_available: true },
+  { id: 'chicken-pizza-l', loyverse_item_id: 'chicken-pizza(l)', name: 'Chicken Pizza (L)', description: 'Grilled chicken with mozzarella', category: 'Non-Veg Pizza', price: 400, image_url: null, is_available: true },
+  { id: 'meat-lover-s', loyverse_item_id: 'meat-lover-pizza(s)', name: 'Meat Lover Pizza (S)', description: 'Loaded with mixed meats', category: 'Non-Veg Pizza', price: 250, image_url: null, is_available: true },
+  { id: 'meat-lover-m', loyverse_item_id: 'meat-lover-pizza(m)', name: 'Meat Lover Pizza (M)', description: 'Loaded with mixed meats', category: 'Non-Veg Pizza', price: 320, image_url: null, is_available: true },
+  { id: 'meat-lover-l', loyverse_item_id: 'meat-lover-pizza(l)', name: 'Meat Lover Pizza (L)', description: 'Loaded with mixed meats', category: 'Non-Veg Pizza', price: 400, image_url: null, is_available: true },
+  { id: 'tuna-s', loyverse_item_id: 'tuna-pizza(s)', name: 'Tuna Pizza (S)', description: 'Tuna with sweet corn and mozzarella', category: 'Non-Veg Pizza', price: 250, image_url: null, is_available: true },
+  { id: 'tuna-m', loyverse_item_id: 'tuna(m)', name: 'Tuna Pizza (M)', description: 'Tuna with sweet corn and mozzarella', category: 'Non-Veg Pizza', price: 320, image_url: null, is_available: true },
+  { id: 'tuna-l', loyverse_item_id: 'tuna-pizza(l)', name: 'Tuna Pizza (L)', description: 'Tuna with sweet corn and mozzarella', category: 'Non-Veg Pizza', price: 400, image_url: null, is_available: true },
+
+  // ── Pizza Rolls ───────────────────────────────────────────
+  { id: 'beef-roll', loyverse_item_id: 'shakam-pizza-roll', name: 'Beef Pizza Roll', description: 'Rolled pizza filled with beef', category: 'Pizza Rolls', price: 450, image_url: null, is_available: true },
+  { id: 'pork-roll', loyverse_item_id: 'pork-pizza-roll', name: 'Pork Pizza Roll', description: 'Rolled pizza filled with pork', category: 'Pizza Rolls', price: 450, image_url: null, is_available: true },
+  { id: 'chicken-roll', loyverse_item_id: 'chicken-pizza-roll', name: 'Chicken Pizza Roll', description: 'Rolled pizza filled with chicken', category: 'Pizza Rolls', price: 450, image_url: null, is_available: true },
+  { id: 'meat-lover-roll', loyverse_item_id: 'meat-lover-pizza-roll', name: 'Meat Lover Pizza Roll', description: 'Rolled pizza loaded with mixed meats', category: 'Pizza Rolls', price: 450, image_url: null, is_available: true },
+  { id: 'egg-roll', loyverse_item_id: 'egg-pizza-roll', name: 'Egg Pizza Roll', description: 'Rolled pizza filled with egg', category: 'Pizza Rolls', price: 400, image_url: null, is_available: true },
+  { id: 'farmhouse-roll', loyverse_item_id: 'farmhouse-pizza-roll', name: 'Farmhouse Pizza Roll', description: 'Rolled pizza with garden vegetables', category: 'Pizza Rolls', price: 400, image_url: null, is_available: true },
+  { id: 'mushroom-roll', loyverse_item_id: 'mushroom-pizza-roll', name: 'Mushroom Pizza Roll', description: 'Rolled pizza filled with mushrooms', category: 'Pizza Rolls', price: 400, image_url: null, is_available: true },
+
+  // ── Bhutanese ─────────────────────────────────────────────
+  { id: 'ema-datshi-rice', loyverse_item_id: 'ema-datshi-with-rice-1', name: 'Ema Datshi with Rice', description: "Bhutan's iconic chilli & cheese dish with steamed rice", category: 'Bhutanese', price: 150, image_url: null, is_available: true },
+  { id: 'shakam-datshi-rice', loyverse_item_id: 'shakam-datshi-with-rice', name: 'Shakam Datshi with Rice', description: 'Dried beef with chilli cheese and rice', category: 'Bhutanese', price: 220, image_url: null, is_available: true },
+  { id: 'beef-datshi-rice', loyverse_item_id: 'beef-datshi-with-rice', name: 'Beef Datshi with Rice', description: 'Beef with chilli cheese and rice', category: 'Bhutanese', price: 250, image_url: null, is_available: true },
+  { id: 'pork-datshi-rice', loyverse_item_id: 'pork-datshi-with-rice', name: 'Pork Datshi with Rice', description: 'Pork with chilli cheese and rice', category: 'Bhutanese', price: 250, image_url: null, is_available: true },
+  { id: 'jasha-maru-rice', loyverse_item_id: 'jasha-maru-with-rice', name: 'Jasha Maru with Rice', description: 'Minced chicken curry with rice', category: 'Bhutanese', price: 200, image_url: null, is_available: true },
+  { id: 'kewa-datshi-rice', loyverse_item_id: 'kewa-datshi-with-rice', name: 'Kewa Datshi with Rice', description: 'Potato with chilli cheese and rice', category: 'Bhutanese', price: 150, image_url: null, is_available: true },
+  { id: 'shamu-datshi-rice', loyverse_item_id: 'shamu-datshi-with-rice', name: 'Shamu Datshi with Rice', description: 'Mushroom with chilli cheese and rice', category: 'Bhutanese', price: 150, image_url: null, is_available: true },
+  { id: 'beef-paa-rice', loyverse_item_id: 'beef-paa-with-rice', name: 'Beef Paa with Rice', description: 'Stir-fried beef with chillies and rice', category: 'Bhutanese', price: 220, image_url: null, is_available: true },
+  { id: 'shakam-paa-rice', loyverse_item_id: 'shakam-paa-with-rice', name: 'Shakam Paa with Rice', description: 'Dried beef stir-fry with rice', category: 'Bhutanese', price: 220, image_url: null, is_available: true },
+
+  // ── Fried Rice ────────────────────────────────────────────
+  { id: 'beef-fr', loyverse_item_id: 'beef-fried-rice', name: 'Beef Fried Rice', description: 'Wok-tossed rice with beef', category: 'Fried Rice', price: 150, image_url: null, is_available: true },
+  { id: 'pork-fr', loyverse_item_id: 'pork-fried-rice', name: 'Pork Fried Rice', description: 'Wok-tossed rice with pork', category: 'Fried Rice', price: 150, image_url: null, is_available: true },
+  { id: 'chicken-fr', loyverse_item_id: 'chicken-fried-rice', name: 'Chicken Fried Rice', description: 'Wok-tossed rice with chicken', category: 'Fried Rice', price: 120, image_url: null, is_available: true },
+  { id: 'egg-fr', loyverse_item_id: 'egg-fried-rice', name: 'Egg Fried Rice', description: 'Wok-tossed rice with egg', category: 'Fried Rice', price: 120, image_url: null, is_available: true },
+  { id: 'veg-fr', loyverse_item_id: 'veg-fried-rice', name: 'Veg Fried Rice', description: 'Wok-tossed rice with fresh vegetables', category: 'Fried Rice', price: 100, image_url: null, is_available: true },
+  { id: 'mix-fr', loyverse_item_id: 'mix-meat-fried-rice', name: 'Mix Meat Fried Rice', description: 'Wok-tossed rice with mixed meats', category: 'Fried Rice', price: 180, image_url: null, is_available: true },
+
+  // ── Chowmein ──────────────────────────────────────────────
+  { id: 'beef-cm', loyverse_item_id: 'beef-chowmein', name: 'Beef Chowmein', description: 'Stir-fried noodles with beef', category: 'Chowmein', price: 150, image_url: null, is_available: true },
+  { id: 'pork-cm', loyverse_item_id: 'pork-chowmein', name: 'Pork Chowmein', description: 'Stir-fried noodles with pork', category: 'Chowmein', price: 150, image_url: null, is_available: true },
+  { id: 'chicken-cm', loyverse_item_id: 'chicken-chowmein', name: 'Chicken Chowmein', description: 'Stir-fried noodles with chicken', category: 'Chowmein', price: 120, image_url: null, is_available: true },
+  { id: 'egg-cm', loyverse_item_id: 'egg-chowmein', name: 'Egg Chowmein', description: 'Stir-fried noodles with egg', category: 'Chowmein', price: 120, image_url: null, is_available: true },
+  { id: 'veg-cm', loyverse_item_id: 'veg-chowmein', name: 'Veg Chowmein', description: 'Stir-fried noodles with vegetables', category: 'Chowmein', price: 100, image_url: null, is_available: true },
+
+  // ── Thukpa ────────────────────────────────────────────────
+  { id: 'beef-tk', loyverse_item_id: 'beef-thukpa', name: 'Beef Thukpa', description: 'Hearty noodle soup with beef', category: 'Thukpa', price: 150, image_url: null, is_available: true },
+  { id: 'pork-tk', loyverse_item_id: 'pork-thukpa', name: 'Pork Thukpa', description: 'Hearty noodle soup with pork', category: 'Thukpa', price: 150, image_url: null, is_available: true },
+  { id: 'chicken-tk', loyverse_item_id: 'chicken-thukpa', name: 'Chicken Thukpa', description: 'Hearty noodle soup with chicken', category: 'Thukpa', price: 120, image_url: null, is_available: true },
+  { id: 'veg-tk', loyverse_item_id: 'veg-thukpa', name: 'Veg Thukpa', description: 'Hearty vegetable noodle soup', category: 'Thukpa', price: 120, image_url: null, is_available: true },
+
+  // ── Fried Chicken ─────────────────────────────────────────
+  { id: 'hc2', loyverse_item_id: 'chicken-drumstick', name: 'Hot & Crispy 2pcs', description: 'Crispy fried chicken, 2 pieces', category: 'Fried Chicken', price: 190, image_url: null, is_available: true },
+  { id: 'hc4', loyverse_item_id: 'hot&crispy-4pcs', name: 'Hot & Crispy 4pcs', description: 'Crispy fried chicken, 4 pieces', category: 'Fried Chicken', price: 360, image_url: null, is_available: true },
+  { id: 'hc6', loyverse_item_id: 'hot&crispy-6pcs', name: 'Hot & Crispy 6pcs', description: 'Crispy fried chicken, 6 pieces', category: 'Fried Chicken', price: 525, image_url: null, is_available: true },
+  { id: 'kfc2', loyverse_item_id: 'korean-fried-chicken[2pc]', name: 'Korean Fried Chicken 2pc', description: 'Korean-style crispy chicken, 2 pieces', category: 'Fried Chicken', price: 190, image_url: null, is_available: true },
+  { id: 'kfc3', loyverse_item_id: 'kfc(3pcs)', name: 'Korean Fried Chicken 3pcs', description: 'Korean-style crispy chicken, 3 pieces', category: 'Fried Chicken', price: 260, image_url: null, is_available: true },
+  { id: 'sfc2', loyverse_item_id: 'spicy-fried-chicken-2pcs', name: 'Spicy Fried Chicken 2pcs', description: 'Extra-spicy crispy chicken, 2 pieces', category: 'Fried Chicken', price: 220, image_url: null, is_available: true },
+  { id: 'sfc3', loyverse_item_id: 'spicy-fried-chicken-3pcs', name: 'Spicy Fried Chicken 3pcs', description: 'Extra-spicy crispy chicken, 3 pieces', category: 'Fried Chicken', price: 290, image_url: null, is_available: true },
+
+  // ── Momos ─────────────────────────────────────────────────
+  { id: 'beef-momo', loyverse_item_id: 'beef-momo', name: 'Beef Momo', description: 'Steamed dumplings filled with beef', category: 'Momos', price: 80, image_url: null, is_available: true },
+  { id: 'pork-momo', loyverse_item_id: 'pork-momo', name: 'Pork Momo', description: 'Steamed dumplings filled with pork', category: 'Momos', price: 100, image_url: null, is_available: true },
+  { id: 'cheese-momo', loyverse_item_id: 'cheese-momo', name: 'Cheese Momo', description: 'Steamed dumplings filled with cheese', category: 'Momos', price: 60, image_url: null, is_available: true },
+  { id: 'veg-momo', loyverse_item_id: 'veg-momo', name: 'Veg Momo', description: 'Steamed dumplings filled with vegetables', category: 'Momos', price: 50, image_url: null, is_available: true },
+
+  // ── Milkshakes ────────────────────────────────────────────
+  { id: 'apple-shake', loyverse_item_id: 'apple', name: 'Apple Shake', description: 'Fresh blended apple milkshake', category: 'Milkshakes', price: 150, image_url: null, is_available: true },
+  { id: 'blueberry-shake', loyverse_item_id: 'blueberry-shake', name: 'Blueberry Shake', description: 'Fresh blended blueberry milkshake', category: 'Milkshakes', price: 120, image_url: null, is_available: true },
+  { id: 'chocolate-shake', loyverse_item_id: 'chocolate-shake', name: 'Chocolate Shake', description: 'Rich chocolate milkshake', category: 'Milkshakes', price: 150, image_url: null, is_available: true },
+  { id: 'mango-shake', loyverse_item_id: 'mango-shake', name: 'Mango Shake', description: 'Fresh blended mango milkshake', category: 'Milkshakes', price: 150, image_url: null, is_available: true },
+  { id: 'strawberry-shake', loyverse_item_id: 'strawberry', name: 'Strawberry Shake', description: 'Fresh blended strawberry milkshake', category: 'Milkshakes', price: 120, image_url: null, is_available: true },
+  { id: 'kiwi-shake', loyverse_item_id: 'kiwi', name: 'Kiwi Shake', description: 'Fresh blended kiwi milkshake', category: 'Milkshakes', price: 150, image_url: null, is_available: true },
+
+  // ── Boba Tea ─────────────────────────────────────────────
+  { id: 'milktea-boba', loyverse_item_id: 'milk-tea-boba', name: 'Milk Tea Boba', description: 'Classic milk tea with tapioca pearls', category: 'Boba Tea', price: 150, image_url: null, is_available: true },
+  { id: 'chocolate-boba', loyverse_item_id: 'chocolate-boba', name: 'Chocolate Boba', description: 'Chocolate drink with tapioca pearls', category: 'Boba Tea', price: 150, image_url: null, is_available: true },
+  { id: 'strawberry-boba', loyverse_item_id: 'strawberry-boba', name: 'Strawberry Boba', description: 'Strawberry drink with tapioca pearls', category: 'Boba Tea', price: 150, image_url: null, is_available: true },
+  { id: 'blueberry-boba', loyverse_item_id: 'blueberry-boba', name: 'Blueberry Boba', description: 'Blueberry drink with tapioca pearls', category: 'Boba Tea', price: 150, image_url: null, is_available: true },
+  { id: 'butterscotch-boba', loyverse_item_id: 'butterscotch-boba', name: 'Butterscotch Boba', description: 'Butterscotch drink with tapioca pearls', category: 'Boba Tea', price: 150, image_url: null, is_available: true },
+
+  // ── Mocktails ─────────────────────────────────────────────
+  { id: 'virgin-mojito', loyverse_item_id: 'virgin-mojito', name: 'Virgin Mojito', description: 'Mint, lime and soda', category: 'Mocktails', price: 100, image_url: null, is_available: true },
+  { id: 'blue-lagoon', loyverse_item_id: 'blue-lagoon', name: 'Blue Lagoon', description: 'Blue curacao syrup with lemonade', category: 'Mocktails', price: 120, image_url: null, is_available: true },
+  { id: 'fruit-punch', loyverse_item_id: 'fruit-punch-mocktail', name: 'Fruit Punch', description: 'Mixed tropical fruit punch', category: 'Mocktails', price: 120, image_url: null, is_available: true },
+  { id: 'cinderella', loyverse_item_id: 'cinderella-mocktail', name: 'Cinderella', description: 'Pineapple, orange and lemon blend', category: 'Mocktails', price: 120, image_url: null, is_available: true },
+  { id: 'tropical', loyverse_item_id: 'tropical-mocktail', name: 'Tropical Mocktail', description: 'Refreshing tropical fruit blend', category: 'Mocktails', price: 120, image_url: null, is_available: true },
+  { id: 'coconut-mocktail', loyverse_item_id: 'coconut-water-mocktail', name: 'Coconut Water Mocktail', description: 'Fresh coconut water blend', category: 'Mocktails', price: 100, image_url: null, is_available: true },
+
+  // ── Drinks ────────────────────────────────────────────────
+  { id: 'coke-300', loyverse_item_id: 'coke-300ml', name: 'Coke 300ml', description: 'Chilled Coca-Cola 300ml', category: 'Drinks', price: 25, image_url: null, is_available: true },
+  { id: 'coke-500', loyverse_item_id: 'coke-500ml', name: 'Coke 500ml', description: 'Chilled Coca-Cola 500ml', category: 'Drinks', price: 35, image_url: null, is_available: true },
+  { id: 'sprite-300', loyverse_item_id: 'sprite-300ml', name: 'Sprite 300ml', description: 'Chilled Sprite 300ml', category: 'Drinks', price: 25, image_url: null, is_available: true },
+  { id: 'fanta-300', loyverse_item_id: 'fantastic-300ml', name: 'Fanta 300ml', description: 'Chilled Fanta 300ml', category: 'Drinks', price: 25, image_url: null, is_available: true },
+  { id: 'water-500', loyverse_item_id: 'water-500ml', name: 'Water 500ml', description: 'Mineral water 500ml', category: 'Drinks', price: 10, image_url: null, is_available: true },
+  { id: 'tea-s', loyverse_item_id: 'tea-s', name: 'Tea (Small)', description: 'Hot brewed tea', category: 'Drinks', price: 20, image_url: null, is_available: true },
+  { id: 'tea-b', loyverse_item_id: 'tea-b', name: 'Tea (Big)', description: 'Hot brewed tea, large', category: 'Drinks', price: 40, image_url: null, is_available: true },
+  { id: 'black-coffee-s', loyverse_item_id: 'black-coffee', name: 'Black Coffee (Small)', description: 'Hot black coffee', category: 'Drinks', price: 20, image_url: null, is_available: true },
+  { id: 'black-coffee-b', loyverse_item_id: 'black-coffee-1', name: 'Black Coffee (Big)', description: 'Hot black coffee, large', category: 'Drinks', price: 40, image_url: null, is_available: true },
+  { id: 'milk-coffee', loyverse_item_id: 'milk-coffee', name: 'Milk Coffee', description: 'Coffee with steamed milk', category: 'Drinks', price: 50, image_url: null, is_available: true },
 ];
 
 const formatPrice = (p) => `Nu. ${Number(p).toFixed(0)}`;
