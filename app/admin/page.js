@@ -54,14 +54,28 @@ export default function AdminPage() {
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: '100vh', background: '#f5f0eb', paddingBottom: '60px' }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');`}</style>
-      <div style={{ background: '#2c1a0e', padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '22px', fontWeight: 800, color: '#fff' }}>DEYJUNG Admin</div>
-          <div style={{ fontSize: '12px', color: '#c9a97a', letterSpacing: '0.1em' }}>ORDER DASHBOARD</div>
+      <div style={{ background: '#2c1a0e', padding: '20px 24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+          <div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '22px', fontWeight: 800, color: '#fff' }}>DEYJUNG Admin</div>
+            <div style={{ fontSize: '12px', color: '#c9a97a', letterSpacing: '0.1em' }}>ORDER DASHBOARD</div>
+          </div>
+          <button onClick={handleSync} disabled={syncing} style={{ background: syncing ? '#555' : '#c0392b', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 18px', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '13px', cursor: syncing ? 'not-allowed' : 'pointer' }}>
+            {syncing ? 'Syncing...' : '🔄 Sync Menu'}
+          </button>
         </div>
-        <button onClick={handleSync} disabled={syncing} style={{ background: syncing ? '#555' : '#c0392b', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 18px', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: '13px', cursor: syncing ? 'not-allowed' : 'pointer' }}>
-          {syncing ? 'Syncing...' : '🔄 Sync Menu'}
-        </button>
+        {/* Nav */}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {[
+            { href: '/admin', label: '🧾 Orders', active: true },
+            { href: '/admin/menu', label: '🍽️ Menu', active: false },
+            { href: '/admin/qr', label: '📱 QR Codes', active: false },
+          ].map(({ href, label, active }) => (
+            <a key={href} href={href} style={{ padding: '7px 16px', borderRadius: '100px', background: active ? '#c0392b' : 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '13px', fontWeight: 600, textDecoration: 'none' }}>
+              {label}
+            </a>
+          ))}
+        </div>
       </div>
       {syncResult && (
         <div style={{ margin: '12px 16px 0', padding: '12px 16px', borderRadius: '10px', background: syncResult.success ? '#e8f5e9' : '#ffebee', color: syncResult.success ? '#2e7d32' : '#c62828', fontSize: '13px', fontWeight: 600 }}>
