@@ -1,5 +1,7 @@
 import MenuPage from '../../../components/MenuPage';
 
+export const dynamic = 'force-dynamic';
+
 export default function TablePage({ params }) {
   const tableId = params.id;
   return <MenuPage tableId={tableId} />;
