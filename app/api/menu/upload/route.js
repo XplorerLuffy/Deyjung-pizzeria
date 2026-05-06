@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 // Expected CSV columns (case-insensitive header matching):
 //   name, category, price, description, image_url
 // Example row:
