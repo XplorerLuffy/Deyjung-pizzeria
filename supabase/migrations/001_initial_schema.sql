@@ -75,6 +75,13 @@ CREATE POLICY "Public read order_items"
 CREATE POLICY "Public update orders"
   ON orders FOR UPDATE USING (true);
 
+-- Admin can upload/update menu items (no auth yet — add auth later if needed)
+CREATE POLICY "Public insert menu_items"
+  ON menu_items FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Public update menu_items"
+  ON menu_items FOR UPDATE USING (true);
+
 -- ─── Realtime ─────────────────────────────────────────────────
 -- Enable realtime for the orders table so the admin dashboard
 -- receives live updates without polling.
